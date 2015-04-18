@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.SparseArray;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -47,6 +48,10 @@ public class MainActivity extends ListActivity {
         btnSearch.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
+
+                // Hide Keyboard
+
+                hideKeyboard();
 
                 // Receive the user's text and encode to url format
 
@@ -158,6 +163,15 @@ public class MainActivity extends ListActivity {
         if(resultCode == RESULT_OK){
             if(dialog.isShowing())
                 dialog.cancel();
+        }
+    }
+
+    private void hideKeyboard() {
+
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
 }

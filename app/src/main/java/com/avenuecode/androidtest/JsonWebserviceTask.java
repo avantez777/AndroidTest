@@ -72,7 +72,7 @@ public abstract class JsonWebserviceTask extends AsyncTask<Void, Void, JSONObjec
 
         }catch(Exception e){
             e.printStackTrace();
-            System.out.println("There was an error at connection");
+            System.out.println("There was an error at the connection");
         }
 
         return json;

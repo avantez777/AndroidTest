@@ -7,5 +7,7 @@ import org.json.JSONObject;
  */
 public interface JsonWebserviceInterface {
 
+    // Delegate method
+
     public void delegate(JSONObject result);
 }

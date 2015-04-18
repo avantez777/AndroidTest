@@ -7,9 +7,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
-import android.widget.Toast;
 
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -40,6 +38,7 @@ import java.util.Map;
 /**
  * Created by Wally7 on 17-04-2015.
  */
+
 public class MapActivity extends FragmentActivity{
 
     Context context = this;
@@ -69,6 +68,8 @@ public class MapActivity extends FragmentActivity{
         map = fm.getMap();
 
         if (map != null) {
+
+            // Set return to previous activity
 
             setResult(RESULT_OK);
 
