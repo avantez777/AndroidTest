@@ -2,6 +2,7 @@ package com.avenuecode.androidtest;
 
 import android.app.Activity;
 import android.app.ListActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -29,6 +30,7 @@ public class MainActivity extends ListActivity {
     EditText edtSearch;
     ListView listSearch;
     Context context = this;
+    ProgressDialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,7 +91,7 @@ public class MainActivity extends ListActivity {
         });
     }
 
-    // Custom
+    // Populate items of the listview
 
     private void populateList(JSONArray results){
 
@@ -126,6 +128,16 @@ public class MainActivity extends ListActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
+                // Create map load dialog
+
+                dialog = new ProgressDialog(context);
+                dialog.setTitle("Wait");
+                dialog.setMessage("Loading map ...");
+                dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+                dialog.setIndeterminate(true);
+                dialog.setCancelable(false);
+                dialog.show();
+
                 // Call another activity passing values
 
                 Bundle bnd = new Bundle();
@@ -135,13 +147,17 @@ public class MainActivity extends ListActivity {
 
                 Intent map = new Intent(context, MapActivity.class);
                 map.putExtras(bnd);
-                startActivity(map);
-
+                startActivityForResult(map, 0);
             }
         });
 
     }
 
 
-
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        if(resultCode == RESULT_OK){
+            if(dialog.isShowing())
+                dialog.cancel();
+        }
+    }
 }

@@ -1,8 +1,13 @@
 package com.avenuecode.androidtest;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.FragmentActivity;
 import android.widget.Toast;
 
@@ -35,13 +40,13 @@ import java.util.Map;
 /**
  * Created by Wally7 on 17-04-2015.
  */
-public class MapActivity extends FragmentActivity {
+public class MapActivity extends FragmentActivity{
 
     Context context = this;
     private GoogleMap map;
 
     @Override
-    public void onCreate(Bundle onSavedInstanceState){
+    public void onCreate(Bundle onSavedInstanceState) {
 
         super.onCreate(onSavedInstanceState);
         setContentView(R.layout.activity_map);
@@ -56,43 +61,44 @@ public class MapActivity extends FragmentActivity {
         List<Marker> markers = new ArrayList<Marker>();
 
         String mainLocation = "";
-        LatLng mainCoord = new LatLng(0,0);
+        LatLng mainCoord = new LatLng(0, 0);
 
         // Get map using fragment from v4 support
 
         SupportMapFragment fm = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         map = fm.getMap();
 
-        if(map!=null){
+        if (map != null) {
 
-            try{
+            setResult(RESULT_OK);
 
+            try {
                 // Iterate through locations and create markers
 
-                for(int i=0;i<locations.size();i++){
+                for (int i = 0; i < locations.size(); i++) {
 
                     String location = locations.get(i);
                     JSONObject coordinate = new JSONObject(coordinates.get(i));
                     Double lat = coordinate.getDouble("lat");
                     Double lng = coordinate.getDouble("lng");
-                    LatLng coord = new LatLng(lat,lng);
+                    LatLng coord = new LatLng(lat, lng);
                     Marker marker;
 
                     // Set the principal location if selected
 
-                    if(position == i){
+                    if (position == i) {
                         mainLocation = location;
                         mainCoord = coord;
                         marker = map.addMarker(new MarkerOptions()
                                 .position(mainCoord)
                                 .title(mainLocation)
-                                .snippet("Coordinates: " + coord.toString())
+                                .snippet(lat + " , " + lng)
                                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
-                    }else{
+                    } else {
                         marker = map.addMarker(new MarkerOptions()
                                 .position(coord)
                                 .title(location)
-                                .snippet("Coordinates: " + coord.toString()));
+                                .snippet(lat + " , " + lng));
                     }
 
                     // Add to markers array
@@ -104,10 +110,10 @@ public class MapActivity extends FragmentActivity {
                 // Move the camera to selected location
 
                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(mainCoord, 1));
-                map.animateCamera(CameraUpdateFactory.zoomTo(3), 2000, null);
+                map.animateCamera(CameraUpdateFactory.zoomTo(4), 2000, null);
 
 
-            }catch(Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
 
@@ -115,4 +121,7 @@ public class MapActivity extends FragmentActivity {
 
 
     }
+
+
+
 }

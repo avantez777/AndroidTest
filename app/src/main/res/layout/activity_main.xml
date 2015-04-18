@@ -30,6 +30,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginRight="5dp"
             android:layout_toLeftOf="@+id/btnSearch"
+            android:hint="Enter a place"
             android:inputType="text"
             android:paddingLeft="15dp"
             android:lines="1" >
